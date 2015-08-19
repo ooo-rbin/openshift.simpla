@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Применяем настройки simpla
+#
+if [ -f ${OPENSHIFT_REPO_DIR}.openshift/files/config.php ]; then
+	envsubst < ${OPENSHIFT_REPO_DIR}.openshift/files/config.php > ${OPENSHIFT_REPO_DIR}config/config.php
+fi
+if [ -f ${OPENSHIFT_REPO_DIR}.openshift/files/simpla.passwd ]; then
+	cat ${OPENSHIFT_REPO_DIR}.openshift/files/simpla.passwd > ${OPENSHIFT_REPO_DIR}simpla/.passwd
+fi
+envsubst < ${OPENSHIFT_REPO_DIR}.openshift/files/simpla.htaccess > ${OPENSHIFT_REPO_DIR}simpla/.htaccess
+
+# Связывание с кешем
+#
+mkdir -p ${OPENSHIFT_TMP_DIR}cache
+if [ -d ${OPENSHIFT_REPO_DIR}cache ]; then
+  rm -rf ${OPENSHIFT_REPO_DIR}cache
+fi
+ln -sf ${OPENSHIFT_TMP_DIR}cache ${OPENSHIFT_REPO_DIR}cache
+
+# Связывание с временными файлами синхронизации
+#
+mkdir -p ${OPENSHIFT_TMP_DIR}temp
+if [ -d ${OPENSHIFT_REPO_DIR}simpla/cml/temp ]; then
+  rm -rf ${OPENSHIFT_REPO_DIR}temp
+fi
+ln -sf ${OPENSHIFT_TMP_DIR}temp ${OPENSHIFT_REPO_DIR}simpla/cml/temp
+
+# Связывание со скомпилированными шаблонами (тема)
+#
+mkdir -p ${OPENSHIFT_TMP_DIR}compiled/theme
+if [ -d ${OPENSHIFT_REPO_DIR}compiled ]; then
+  rm -rf ${OPENSHIFT_REPO_DIR}compiled
+fi
+ln -sf ${OPENSHIFT_TMP_DIR}compiled/theme ${OPENSHIFT_REPO_DIR}compiled
+
+# Связывание со скомпилированными шаблонами (админка)
+#
+mkdir -p ${OPENSHIFT_TMP_DIR}compiled/admin
+if [ -d ${OPENSHIFT_REPO_DIR}simpla/design/compiled ]; then
+  rm -rf ${OPENSHIFT_REPO_DIR}simpla/design/compiled
+fi
+ln -sf ${OPENSHIFT_TMP_DIR}compiled/admin ${OPENSHIFT_REPO_DIR}simpla/design/compiled
+
+# Связывание с хранилищем файлов
+#
+mkdir -p ${OPENSHIFT_DATA_DIR}files/brands
+mkdir -p ${OPENSHIFT_DATA_DIR}files/categories
+mkdir -p ${OPENSHIFT_DATA_DIR}files/downloads
+mkdir -p ${OPENSHIFT_DATA_DIR}files/originals
+mkdir -p ${OPENSHIFT_DATA_DIR}files/products
+mkdir -p ${OPENSHIFT_DATA_DIR}files/uploads
+if [ -d ${OPENSHIFT_REPO_DIR}files ]; then
+  rm -rf ${OPENSHIFT_REPO_DIR}files
+fi
+ln -sf ${OPENSHIFT_DATA_DIR}files ${OPENSHIFT_REPO_DIR}files
+
+# Добавление конфига хранилища файлов (типы файлов)
+#
+cat ${OPENSHIFT_REPO_DIR}.openshift/files/type.htaccess > ${OPENSHIFT_DATA_DIR}files/.htaccess
+
+# Добавление конфига хранилища файлов (запрет доступа)
+#
+cat ${OPENSHIFT_REPO_DIR}.openshift/files/deny.htaccess > ${OPENSHIFT_DATA_DIR}files/downloads/.htaccess
+cat ${OPENSHIFT_REPO_DIR}.openshift/files/deny.htaccess > ${OPENSHIFT_DATA_DIR}files/originals/.htaccess
+

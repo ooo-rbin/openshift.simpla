@@ -1,0 +1,5 @@
+AddType application/octet-stream csv
+AuthName "Simpla CMS"
+AuthType Basic
+AuthUserFile ${OPENSHIFT_REPO_DIR}simpla/.passwd
+require valid-user

@@ -1,0 +1,9 @@
+/simpla/.htaccess
+/simpla/.passwd
+/simpla/cml/temp
+/simpla/design/compiled
+/config/config.php
+/cache
+/compiled
+/files
+
