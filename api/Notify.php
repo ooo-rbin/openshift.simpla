@@ -8,20 +8,28 @@
  * @author		Denis Pikusov
  *
  */
+
+require_once('Mail.php');
  
 class Notify extends Simpla
 {
     function email($to, $subject, $message, $from = '', $reply_to = '')
     {
-    	$headers = "MIME-Version: 1.0\n" ;
-    	$headers .= "Content-type: text/html; charset=utf-8; \r\n"; 
-    	$headers .= "From: $from\r\n";
-    	if(!empty($reply_to))
-	    	$headers .= "reply-to: $reply_to\r\n";
-    	
-    	$subject = "=?utf-8?B?".base64_encode($subject)."?=";
-
-    	@mail($to, $subject, $message, $headers);
+	$mail =& Mail::factory('smtp', [
+		'host' => $this->config->smtp_host,
+		'port' => $this->config->smtp_port,
+		'auth' => $this->config->smtp_auth,
+		'username' => $this->config->smtp_username,
+		'password' => $this->config->smtp_password
+	]);
+	$mail->send($to, [
+		'From' => $this->config->smtp_from,
+		'To' => $to,
+		'Subject' => "=?utf-8?B?" . base64_encode($subject) . "?=",
+		'MIME-Version' => '1.0',
+		'Content-type' => 'text/html; charset=utf-8; ',
+		'reply-to' => (empty($reply_to)) ? ((empty($from)) ? $this->config->smtp_from : $from) : $reply_to
+	], $message);
     }
 
 	public function email_order_user($order_id)

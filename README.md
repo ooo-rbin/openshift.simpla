@@ -28,6 +28,19 @@
 
 Таким образом, медиафайлы будут в постоянном хранилище.
 
+## Работа с письмами
+
+Почтовый сервис на OpenShift отсутствует, в связи с этим был внесён патч в API Simpla CMS. Был изменен файл `api/Notify.php`. Изменения довляют зависимость от класса `[Mail](https://pear.php.net/package/Mail)` предоставляемого PHAR (зависимость учтена в `.openshift/pear.txt`).
+
+В файл настройки `config.php` был добавлен раздел содержащий настройки SMTP:
+
+* **`smtp_host`** - сервер SMTP шлюза
+* **`smtp_port`** - порт доступа к SMTP
+* **`smtp_auth`** - метод аутентификации (например, без аутентификации `false` или простая аутентификация `"PLAIN"`)
+* **`smtp_username`** - имя пользователя SMTP
+* **`smtp_password`** - пароль пользователя SMTP
+* **`smtp_from`** - обратный адрес (некоторые SMTP требуют что бы это значение было идентично `smtp_username`)
+
 ## Пример `config.php`
 
 ```
@@ -73,6 +86,14 @@ watermark_file = "simpla/files/watermark/watermark.png"
 
 [files]
 downloads_dir = "files/downloads/"
+
+[smtp]
+smtp_host = ""
+smtp_port = 25
+smtp_auth = "PLAIN"
+smtp_username = ""
+smtp_password = ""
+smtp_from = ""
 ```
 ## Вопросы лицензи
 
