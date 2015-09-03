@@ -1,5 +1,22 @@
 #!/bin/bash
 
+# Определение дополнительных пременных окружения (измените их значения под свое приложение)
+#
+export OPENSHIFT_ALIAS=${OPENSHIFT_APP_DNS} # Доменное имя приложения
+export OPENSHIFT_PROTOCOL="http" # Протокол доступа к приложению
+
+# Настройки корневой директории сайта
+#
+if [ -f ${OPENSHIFT_REPO_DIR}.openshift/files/root.htaccess ]; then
+	envsubst < ${OPENSHIFT_REPO_DIR}.openshift/files/root.htaccess > ${OPENSHIFT_REPO_DIR}.htaccess
+fi
+
+# Применение модификации robots.txt
+#
+if [ -f ${OPENSHIFT_REPO_DIR}.openshift/files/robots.txt ]; then
+        envsubst < ${OPENSHIFT_REPO_DIR}.openshift/files/robots.txt > ${OPENSHIFT_REPO_DIR}robots.txt
+fi
+
 # Применяем настройки simpla
 #
 if [ -f ${OPENSHIFT_REPO_DIR}.openshift/files/config.php ]; then
@@ -63,4 +80,3 @@ cat ${OPENSHIFT_REPO_DIR}.openshift/files/type.htaccess > ${OPENSHIFT_DATA_DIR}f
 #
 cat ${OPENSHIFT_REPO_DIR}.openshift/files/deny.htaccess > ${OPENSHIFT_DATA_DIR}files/downloads/.htaccess
 cat ${OPENSHIFT_REPO_DIR}.openshift/files/deny.htaccess > ${OPENSHIFT_DATA_DIR}files/originals/.htaccess
-

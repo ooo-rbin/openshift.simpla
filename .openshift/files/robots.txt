@@ -1,7 +1,5 @@
 User-agent: *
-
 Disallow: /sections/404
-
 Disallow: /simpla/
 Disallow: /order/
 Disallow: /user/
@@ -14,7 +12,5 @@ Disallow: /compiled/
 Disallow: /cart/
 Disallow: /resize/
 Disallow: /password.php
-
-
-
-
+Sitemap: ${OPENSHIFT_PROTOCOL}://${OPENSHIFT_ALIAS}/sitemap.xml
+Host: ${OPENSHIFT_ALIAS}

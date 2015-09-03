@@ -1,0 +1,47 @@
+## Если необходимо использовать HTTPS, раскоментируйте нижеследующую строку
+#Header set Strict-Transport-Security "max-age=31536000" env=HTTPS
+AddDefaultCharset UTF-8
+ErrorDocument 404 /404
+ErrorDocument 401 /password.php
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteBase /
+## Если необходимо использовать определенный протокол, раскоментируйте нижеследующую строку
+#RewriteCond %{HTTP:X-Forwarded-Proto} !${OPENSHIFT_PROTOCOL} [OR]
+## Если необходимо использовать определенное доменное имя, раскоментируйте две следующих строки (${OPENSHIFT_ALIAS} и ${OPENSHIFT_PROTOCOL} задается в .openshift/action_hooks/post_deploy)
+#RewriteCond %{HTTP_HOST} !^${OPENSHIFT_ALIAS}$
+#RewriteRule (.*) ${OPENSHIFT_PROTOCOL}://${OPENSHIFT_ALIAS}/$1 [L,R=301]
+RewriteRule ^admin/?$ /simpla/ [L,R=302]
+RewriteRule ^catalog/([^/]+)/?$	/index.php?module=ProductsView&category=$1 [L,QSA]
+RewriteRule ^catalog/([^/]+)/([^/]+)/?$	/index.php?module=ProductsView&category=$1&brand=$2 [L,QSA]
+RewriteRule ^products/([^/]+)/?$ /index.php?module=ProductView&product_url=$1 [L,QSA]
+RewriteRule ^products/?$ /index.php?module=ProductsView [L,QSA]
+RewriteRule ^brands/([^/]+)/?$ /index.php?module=ProductsView&brand=$1 [L,QSA]
+RewriteRule ^brands/([^/]+)/page_([^/]+)/?$ /index.php?module=ProductsView&brand=$1&page=$2 [L,QSA]
+RewriteRule ^search/([^/]+)/?$ /index.php?module=ProductsView&keyword=$1 [L,QSA]
+RewriteRule ^search/?$ /index.php?module=ProductsView [L,QSA]
+RewriteRule ^blog/([^/]+)/?$ /index.php?module=BlogView&url=$1 [L,QSA]
+RewriteRule ^blog/?$ /index.php?module=BlogView [L,QSA]
+RewriteRule ^cart/?$ /index.php?module=CartView [L,QSA]
+RewriteRule ^cart/([^/]+)/?$ /index.php?module=CartView&add_variant=$1 [L,QSA]
+RewriteRule ^cart/remove/([^/]+)/?$ /index.php?module=CartView&delete_variant=$1 [L,QSA]
+RewriteRule ^order/([^/]+)/?$ /index.php?module=OrderView&url=$1 [L,QSA]
+RewriteRule ^order/?$ /index.php?module=OrderView [L,QSA]
+RewriteRule ^user/login/?$ /index.php?module=LoginView [L,QSA]
+RewriteRule ^user/register/?$ /index.php?module=RegisterView [L,QSA]
+RewriteRule ^user/logout/?$ /index.php?module=LoginView&action=logout [L,QSA]
+RewriteRule ^user/password_remind/?$ /index.php?module=LoginView&action=password_remind [L,QSA]
+RewriteRule ^user/password_remind/([0-9a-z]+)/?$ /index.php?module=LoginView&action=password_remind&code=$1 [L,QSA]
+RewriteRule ^user/?$ /index.php?module=UserView [L,QSA]
+RewriteRule ^sitemap.xml?$ /sitemap.php [L,QSA]
+RewriteRule ^yandex.xml?$ /yandex.php [L,QSA]
+RewriteRule ^contact/?$ /index.php?module=FeedbackView [L,QSA]
+RewriteRule ^order/([^/]+)/([^/]+)/?$ /index.php?module=OrderView&url=$1&file=$2 [L,QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]*)/?$	/index.php?module=PageView&page_url=$1 [L,QSA]
+RewriteRule ^/?$ /index.php?module=MainView&page_url= [L,QSA]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^files/products/(.+) resize/resize.php?file=$1&token=%{QUERY_STRING}
+</IfModule>

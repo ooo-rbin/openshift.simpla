@@ -6,4 +6,5 @@
 /cache
 /compiled
 /files
-
+/.htaccess
+/robots.txt
