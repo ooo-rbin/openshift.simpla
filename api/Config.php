@@ -43,7 +43,7 @@ class Config
 		$subdir = trim(substr($script_dir1, strlen($script_dir2)), "/\\");
 
 		// Протокол
-		$protocol = (isset($_SERVER['HTTP_HTTPS']) && $_SERVER['HTTP_HTTPS'] == true) ? 'https' : 'http';
+		$protocol = (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') ? 'https' : 'http';
 
 		$this->vars['protocol'] = $protocol;
 		$this->vars['root_url'] = $protocol.'://'.rtrim($_SERVER['HTTP_HOST']);
