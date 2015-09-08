@@ -1,5 +1,12 @@
+<IfModule mod_rewrite.c>
+Header unset Strict-Transport-Security
+</IfModule>
+<IfModule mod_rewrite.c>
 AddType application/octet-stream csv
+</IfModule>
+<IfModule mod_authn_file.c>
 AuthName "Simpla CMS"
 AuthType Basic
 AuthUserFile ${OPENSHIFT_REPO_DIR}simpla/.passwd
 require valid-user
+</IfModule>

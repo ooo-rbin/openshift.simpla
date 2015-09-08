@@ -1,2 +1,4 @@
-order deny,allow 
-deny from all
+<IfModule mod_access_compat.c>
+Order Deny,Allow 
+Deny from all
+</IfModule>
