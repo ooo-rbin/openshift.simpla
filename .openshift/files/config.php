@@ -4,6 +4,7 @@ license = ""
 
 [database]
 db_server = "${OPENSHIFT_MYSQL_DB_HOST}"
+db_port = "${OPENSHIFT_MYSQL_DB_PORT}"
 db_user = "${OPENSHIFT_MYSQL_DB_USER}"
 db_password = "${OPENSHIFT_MYSQL_DB_PASSWORD}"
 db_name = "${OPENSHIFT_APP_NAME}"

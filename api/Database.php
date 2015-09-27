@@ -43,7 +43,7 @@ class Database extends Simpla
 			return $this->mysqli;
 		// Иначе устанавливаем соединение
 		else
-			$this->mysqli = new mysqli($this->config->db_server, $this->config->db_user, $this->config->db_password, $this->config->db_name);
+			$this->mysqli = new mysqli($this->config->db_server, $this->config->db_user, $this->config->db_password, $this->config->db_name, $this->config->db_port);
 		
 		// Выводим сообщение, в случае ошибки
 		if($this->mysqli->connect_error)

@@ -30,6 +30,10 @@
 
 Таким образом, медиафайлы будут в постоянном хранилище.
 
+## Работа в кластере
+
+Был модифицирован файл `api/Database.php` для работы с MySQL на выделенном сервере. Добавлена настрока порта в файл `config.php`.
+
 ## Работа с письмами
 
 Почтовый сервис на OpenShift отсутствует, в связи с этим был внесён патч в API Simpla CMS. Был изменен файл `api/Notify.php`. Изменения довляют зависимость от класса [Mail](https://pear.php.net/package/Mail) предоставляемого PHAR (зависимость учтена в `.openshift/pear.txt`).
@@ -56,6 +60,7 @@ license = ""
 
 [database]
 db_server = "${OPENSHIFT_MYSQL_DB_HOST}"
+db_port = "${OPENSHIFT_MYSQL_DB_PORT}"
 db_user = "${OPENSHIFT_MYSQL_DB_USER}"
 db_password = "${OPENSHIFT_MYSQL_DB_PASSWORD}"
 db_name = "${OPENSHIFT_APP_NAME}"
